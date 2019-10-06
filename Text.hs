@@ -8,7 +8,7 @@ import qualified Data.Text as T
 import Gauge.Main
 
 sTexts :: [T.Text]
-sTexts = T.words "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+sTexts = T.words "祇園精舎の鐘の声 諸行無常の響きあり 沙羅双樹の花の色 盛者必衰の理をあらはす 奢れる人も久からず ただ春の夜の夢のごとし 猛き者も遂にはほろびぬ 偏ひとへに風の前の塵におなじ"
 
 group :: [T.Text] -> [Benchmark]
 group xs =
