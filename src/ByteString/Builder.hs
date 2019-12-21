@@ -1,12 +1,12 @@
 module Main where
 
+import Data.Word
 import Gauge.Main
 import qualified Data.ByteString as B
-import qualified Data.ByteString.Lazy as BL
 import qualified Data.ByteString.Builder as BB
 import qualified Data.ByteString.FastBuilder as FB
+import qualified Data.ByteString.Lazy as BL
 import qualified Mason.Builder as M
-import Data.Word
 
 main = defaultMain
   [ bench "bytestring" $ nf (construct B.singleton) 0
