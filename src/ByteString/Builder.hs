@@ -1,3 +1,5 @@
+{-# OPTIONS -ddump-simpl -dsuppress-all -ddump-to-file #-}
+{-# LANGUAGE CPP #-}
 module Main where
 
 import Data.Word
@@ -8,16 +10,14 @@ import qualified Data.ByteString.FastBuilder as FB
 import qualified Data.ByteString.Lazy as BL
 import qualified Mason.Builder as M
 
-main = defaultMain
-  [ bench "bytestring" $ nf (construct B.singleton) 0
-  , bench "bytestring-builder" $ nf (BB.toLazyByteString . construct BB.word8) 0
-  , bench "bytestring-builder/toStrict" $ nf (BL.toStrict . BB.toLazyByteString . construct BB.word8) 0
-  , bench "fast-builder/lazy" $ nf (FB.toLazyByteString . construct FB.word8) 0
-  , bench "fast-builder/strict" $ nf (FB.toStrictByteString . construct FB.word8) 0
-  , bench "mason/lazy" $ nf (M.toLazyByteString . construct M.word8) 0
-  , bench "mason/strict" $ nf (M.toStrictByteString . construct M.word8) 0
-  ]
+#define EXPR(p) (\x -> p x <> p (x + 1) <> p (x + 2) <> p (x + 3) <> p (x + 4) <> p (x + 5) <> p (x + 6) <> p (x + 7))
 
-construct :: Monoid a => (Word8 -> a) -> Word8 -> a
-construct p = \x -> p x <> p (x + 1) <> p (x + 2) <> p (x + 3)
-{-# INLINE construct #-}
+main = defaultMain
+  [ bench "bytestring" $ nf (EXPR(B.singleton)) 0
+  , bench "bytestring-builder" $ nf (BB.toLazyByteString . EXPR(BB.word8)) 0
+  , bench "bytestring-builder/toStrict" $ nf (BL.toStrict . BB.toLazyByteString . EXPR(BB.word8)) 0
+  , bench "fast-builder/lazy" $ nf (FB.toLazyByteString . EXPR(FB.word8)) 0
+  , bench "fast-builder/strict" $ nf (FB.toStrictByteString . EXPR(FB.word8)) 0
+  , bench "mason/lazy" $ nf (M.toLazyByteString . EXPR(M.word8)) 0
+  , bench "mason/strict" $ nf (M.toStrictByteString . EXPR(M.word8)) 0
+  ]
